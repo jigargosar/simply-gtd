@@ -2,7 +2,10 @@
   "mcpServers": {
     "foldkit-devtools": {
       "command": "npx",
-      "args": ["-y", "@foldkit/devtools-mcp"]
+      "args": [
+        "-y",
+        "@foldkit/devtools-mcp"
+      ]
     }
   }
 }
