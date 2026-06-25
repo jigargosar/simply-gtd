@@ -16,7 +16,7 @@ A board is a vertical stack of **Sections**. Each Section has a title and a list
 6. **Item metadata**: created + modified timestamps only.
 7. **Drag reorder**: items within a section, items across sections, and reordering sections.
 8. **No bulk operations.**
-9. **Removal model**: single `status` flag (`active | archived | deleted`) per entity; all actions are transitions of it; visibility derived from own + parent flag.
+9. **State model**: two orthogonal boolean axes per entity — `archived/not-archived` and `done/not-done` (no "active"). Delete is an action that removes the record (no `deleted` state). Visibility derived from own + parent `archived`. See [`item-state.md`](./item-state.md).
 
 ## Interaction & layout
 
@@ -31,7 +31,7 @@ A board is a vertical stack of **Sections**. Each Section has a title and a list
 
 ## Sub-designs (cross-referenced)
 
-- **Archive / removal** → [`archive-specs.md`](./archive-specs.md) — single-flag model, transitions, derived visibility, archive view. Open: **E1** (delete-section → item fate).
+- **Item state / lifecycle** → [`item-state.md`](./item-state.md) — two-axis model (archived, done), delete-as-removal, transitions, derived visibility, archive view. E1 resolved (D10: section-delete cascades behind count-confirm).
 
 ## Open questions (board-level)
 
