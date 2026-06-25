@@ -16,7 +16,7 @@ Treat the subtree as read-only reference: never import from `repos/foldkit/` in 
 
 If `./repos/foldkit` does not exist and the line below says `subtree_prompted: false`, offer to run `git subtree add --prefix=repos/foldkit https://github.com/foldkit/foldkit.git main --squash`. This gives you access to the full source, examples, and docs. Whether the user accepts or declines, update the value to `true` so it isn't asked again.
 
-subtree_prompted: false
+subtree_prompted: true
 
 If `foldkit-skills` is installed as a Claude Code plugin, the `generate-program` and `audit-program` skills carry snapshot architecture and conventions guides synced from the live code.
 

@@ -6,12 +6,12 @@ simply-gtd — a local-only "list-of-lists" GTD app. Foldkit (Effect + Elm archi
 
 - `AGENTS.md` — Foldkit conventions, patterns, and the quality bar. Authoritative; follow it.
 - `docs/roadmap.md` — product spec hub: concept, locked decisions, open questions.
-- `docs/archive-specs.md` — single-flag archive model (D1–D8); open edge **E1**.
+- `docs/item-state.md` — two-axis item-state model (D1–D10): `archived` + `done`, delete-as-removal. E1 resolved.
 - `repos/foldkit/` — vendored framework subtree; canonical reference. Read-only, never import from it (import from `foldkit`).
 
 ## Model in one line
 
-Board → Sections (titled) → Items (text + done + timestamps). Removal is a single `status` flag per entity: `active | archived | deleted`; visibility derived from own + parent flag.
+Board → Sections (titled) → Items (text + done + timestamps). Each entity carries two orthogonal axes — `archived/not-archived` and `done/not-done` (no "active"); delete removes the record (no `deleted` state); visibility derived from own + parent `archived`.
 
 ## Commands
 
