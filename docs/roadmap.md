@@ -1,6 +1,6 @@
 # Roadmap — List-of-Lists App (working draft)
 
-> Status: **requirements gathering in progress**. This is a living notes file built during grilling. Decisions move from "Open" to "Locked" as they're confirmed.
+> Status: **requirements gathering in progress**. Living hub. Detailed sub-designs live in cross-referenced files and are summarized here.
 
 ## Concept
 
@@ -16,22 +16,25 @@ A board is a vertical stack of **Sections**. Each Section has a title and a list
 6. **Item metadata**: created + modified timestamps only.
 7. **Drag reorder**: items within a section, items across sections, and reordering sections.
 8. **No bulk operations.**
-9. **Removal model**: Trello-style **Archive**, not delete. Full design in [`archive-specs.md`](./archive-specs.md) (D1–D8 locked).
+9. **Removal model**: single `status` flag (`active | archived | deleted`) per entity; all actions are transitions of it; visibility derived from own + parent flag.
 
-## Archive model — understood so far
+## Interaction & layout
 
-10. Nothing is hard-deleted; the destructive action is **Archive**.
-11. Archive triggered from a per-entity **kebab menu** (per Item, per Section).
-12. Archiving a **Section cascades** to its Items.
-13. Separate **Archive view** lists archived entities; entries can be **Unarchived**.
-14. In the Archive view, **no confirmation** on archive/unarchive.
-15. Recoverability comes from archive/unarchive — not a generic undo stack.
+10. **Header**: always-visible (sticky) top header. Holds search + the global controls directly (no hamburger).
+11. **No top-level menu**: hamburger dropped — too few globals to justify it. Globals live as visible header controls: a **done show/hide toggle** and an **Archive view** button.
+12. **Add Item**: small "+ add" text button at the **end** of each section → opens the inline popover; new item appends at the bottom.
+13. **Add Section**: same pattern — small add button at the end of the board → inline popover.
+14. **One inline popover per entity**: clicking an Item or Section title opens a single **lightweight popover anchored to it** (not a board-dimming modal). It holds the edit field(s) plus the entity's 3–5 actions (edit / done / archive / move).
+15. **No hover-reveal, no ⋮ menu**: actions live in the inline popover. Hover dies on touch and hurts discoverability; with few items per section a click-to-open row is cleaner and touch-safe.
+16. **Done**: ticking **strikethroughs in place** (order unchanged). The header done-toggle controls done-item visibility.
+17. **Search**: input in the sticky header; typing shows a **flat dropdown** of matching results on the page (each result shows its section label).
 
-## Open questions
+## Sub-designs (cross-referenced)
 
-- Q7: Is archive terminal, or is there also "Delete forever" from the Archive view?
-- Q8: Unarchiving a Section — do its cascade-archived Items return with it?
-- Q9: Archive an Item individually, then unarchive just it back to its Section? (assume yes)
-- Q10: Archive view layout — flat list vs grouped (Sections vs Items, items show origin section)?
-- Q11: Any board-level archive, or just Sections + Items?
-- Q12: `done` checkbox is independent of archive (done = visible+complete; archived = hidden)?
+- **Archive / removal** → [`archive-specs.md`](./archive-specs.md) — single-flag model, transitions, derived visibility, archive view. Open: **E1** (delete-section → item fate).
+
+## Open questions (board-level)
+
+- Q-search-scope: does search match item text only, or also section titles?
+- Q-done-flag: does the top-level done flag **hide** completed items, or toggle the strikethrough styling itself?
+- Q-add-placement: confirm new items append at bottom (vs top) — flagged to eval against similar apps.

@@ -2,31 +2,44 @@
 
 > Trello-style archive for the List-of-Lists app. Replaces hard delete. Living doc — built during grilling.
 
-## Model so far
+## Core model: one flag rules
 
-1. Nothing is hard-deleted; the destructive action on Items and Sections is **Archive**.
-2. Archive is triggered from a per-entity **kebab menu** (one per Item, one per Section).
-3. Archiving a **Section cascades** to its Items.
-4. A separate **Archive view** lists archived entities; entries can be **Unarchived** (restored).
-5. In the Archive view, **no confirmation** on archive/unarchive.
-6. Recoverability comes entirely from archive/unarchive — no generic undo stack.
-7. `done` checkbox is independent: done = visible + complete; archived = hidden from board.
+Every entity (Section, Item) carries a single `status` flag:
 
-## Open questions
+```
+status : 'active' | 'archived' | 'deleted'
+```
 
-- Q7: Is archive terminal, or also "Delete forever" from the Archive view?
-- Q8: Unarchiving a Section — do its cascade-archived Items return with it?
-- Q9: Archive an Item individually, then unarchive just it back to its Section?
-- Q10: Archive view layout — flat vs grouped (Sections vs Items; items show origin section)?
-- Q11: Any board-level archive, or just Sections + Items?
+All actions are transitions of this one flag. There is **no cascade bookkeeping** — visibility is *derived* from an entity's own flag plus its parent's flag.
+
+### Transitions
+
+- **Archive**: `active → archived` (from the per-entity kebab menu).
+- **Unarchive**: `archived → active` (from the Archive view).
+- **Delete forever**: `archived → deleted` (from the Archive view; terminal; confirms).
+
+### Derived visibility (the whole point of the single flag)
+
+- **Board** shows Section S iff `S.status == active`; within S, shows Item I iff `I.status == active`.
+- **Archive view** shows: archived Sections (as blocks, with their child items inside), and archived Items whose parent Section is still active (orphan archived items).
+- An Item that is `active` but whose parent Section is `archived` is **not on the board and not independently in the archive** — it rides inside its archived Section's block and returns when the Section is unarchived.
+
+This makes the tricky cases fall out for free:
+
+- Archive Section → its `active` items are hidden (parent archived) but keep `status=active`; unarchiving the Section brings them straight back.
+- Archive an Item individually, then archive its Section, then unarchive the Section → the item **stays archived** because its own flag is still `archived`. No memory needed; the item's own flag *is* the memory.
 
 ## Decisions (locked)
 
-- **D1 (Q7)**: Two-stage removal. Archive is reversible; the Archive view also offers **Delete forever** (terminal, and this one *does* confirm).
-- **D2 (Q8)**: Cascade is symmetric. Archiving a Section takes its Items down with it; restoring the Section brings those same Items back as a unit. The Section remembers what it cascaded.
-- **D3 (Q9)**: Items can be archived individually (Section untouched) and restored back to their origin Section. Only Items cascaded by a Section archive ride back with that Section.
-- **D4 (Q10)**: Archive view is **grouped** — archived Sections as blocks; archived Items listed with their origin-section label. Search available within the archive.
-- **D5 (Q11)**: Only Sections + Items are archivable. No board-level archive.
-- **D6 (edge: archive-item-then-archive-section)**: An individually-archived Item **stays archived** when its Section is restored. Section-restore only returns what section-archive took down.
-- **D7 (edge: restore position)**: A restored Section appends to the **bottom of the board**; a restored Item appends to the **bottom of its origin Section**. Original ordinal is not preserved.
-- **D8**: `done` is independent of archive. done = visible + complete; archived = hidden from board.
+- **D1**: One `status` flag per entity: `active | archived | deleted`. Every action is a transition of it.
+- **D2**: Visibility is derived from `own.status` + `parent.status`. No separate cascade tracking.
+- **D3**: Archive = `active→archived`; Unarchive = `archived→active`; Delete = `archived→deleted`.
+- **D4**: Delete is reachable only from the Archive view (must archive before deleting). Delete confirms; archive/unarchive do not.
+- **D5**: Archive view is **grouped** — archived Sections as blocks (with their items), archived orphan Items listed with origin-section label. Search available within the archive.
+- **D6**: Only Sections + Items have a status flag. No board-level archive.
+- **D7 (restore position)**: A restored Section appends to the **bottom of the board**; a restored Item appends to the **bottom of its parent Section**. Original ordinal not preserved.
+- **D8**: `done` is independent of `status`. done = visible + complete; archived = hidden from board.
+
+## Single remaining edge
+
+- **E1**: Deleting a Section (`archived→deleted`) — what happens to items still parented to it? Pure single-flag leaves them as orphans with stale flags. Recommend: **cascade `deleted` to all its items** on section delete (cleanup), since a deleted section is unreachable anyway. _Confirm._
