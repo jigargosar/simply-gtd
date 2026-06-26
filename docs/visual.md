@@ -2,7 +2,7 @@
 
 > Scope: the finished look — style direction, theme, layout, color, type, density, affordances.
 > Hub: [`roadmap.md`](./roadmap.md). Sibling specs: [`interaction.md`](./interaction.md), [`persistence.md`](./persistence.md), [`search.md`](./search.md), [`item-state.md`](./item-state.md).
-> Working mockup: `scratchpad/mockup/` (served via `pnpx serve`).
+> Mockups: `docs/mockups/board-vNNN.html` (latest = current). Serve via `pnpx serve docs/mockups`.
 
 ## Decisions (locked)
 
