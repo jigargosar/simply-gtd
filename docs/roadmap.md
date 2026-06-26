@@ -26,7 +26,7 @@ A board is a vertical stack of **Sections**. Each Section has a title and a list
 13. **Add Section**: same pattern — small add button at the end of the board → inline popover; new section **inserts at the top**.
 14. **One inline popover per entity**: clicking an Item or Section title opens a single **lightweight popover anchored to it** (not a board-dimming modal). It holds the edit field(s) plus the entity's 3–5 actions (edit / done / archive / move). See [`interaction.md`](./interaction.md) I4/I5.
 15. **No hover-reveal, no ⋮ menu**: actions live in the inline popover. Hover dies on touch and hurts discoverability; with few items per section a click-to-open row is cleaner and touch-safe.
-16. **Done**: ticking marks the item done in place (order unchanged). Done-item visibility is governed by the header 3-state filter (#11). Strikethrough rendering is open — see [`interaction.md`](./interaction.md) B2.
+16. **Done**: ticking marks the item done in place (order unchanged), rendered **struck-through**. Done-item visibility is governed by the header 3-state filter (#11). See [`interaction.md`](./interaction.md) I1/I9.
 17. **Search**: input in the sticky header; typing shows a **flat dropdown** of matching results on the page (each result shows its section label). See [`search.md`](./search.md).
 
 ## Sub-designs (cross-referenced)
@@ -44,4 +44,4 @@ A board is a vertical stack of **Sections**. Each Section has a title and a list
 
 ## Open questions (board-level)
 
-- See the **Open** sections in [`interaction.md`](./interaction.md) (A1 add-vs-restore direction, B1 filter persistence, B2 done strikethrough, D1 blur popup, E1 seed content) and [`search.md`](./search.md) (C1 archived-result click, C2 archived-hit presentation, C3 match style).
+- None outstanding. Prior threads (A1, B1, B2, C1–C3, D1, E1) are resolved — see the **Resolved** sections in [`interaction.md`](./interaction.md) and the S2–S4 decisions in [`search.md`](./search.md).

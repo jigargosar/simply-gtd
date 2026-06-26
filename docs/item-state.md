@@ -54,7 +54,7 @@ Visibility is derived from an entity's own `archived` flag plus its parent's —
 - D4: Delete reachable only from the Archive view; delete confirms; archive/unarchive do not.
 - D5: Archive view is grouped — archived Sections as blocks (with their items), archived orphan Items with origin-section label. Search within the archive.
 - D6: Only Sections + Items carry state. No board-level archive/delete.
-- D7 (restore position): Restored Section appends to the bottom of the board; restored Item appends to the bottom of its parent Section. Original ordinal not preserved.
+- D7 (restore position): Restored Section inserts at the **top** of the board; restored Item inserts at the **top** of its parent Section. Original ordinal not preserved. Consistent with add-at-top ([`interaction.md`](./interaction.md) I2).
 - D8: `done` is independent of `archived`; all four combinations are valid.
 - D9 (no deleted state): Delete removes the record; no tombstone. Revisit only if sync/audit/undo-delete is added.
 - D10 (E1 — section delete cascade): Deleting an archived Section removes the Section and all its items, behind a count-aware confirm ("Delete section and its N items permanently?"). Double-gated (archive first, then confirm) is the bulk-loss guard.
