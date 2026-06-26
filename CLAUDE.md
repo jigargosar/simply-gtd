@@ -28,3 +28,4 @@ Board → Sections (titled) → Items (text + done + timestamps). Each entity ca
 - Stay inside Foldkit/Effect; no React, no escape hatches, no two-way binding.
 - Model fields are Schema types. Immutable updates via `evo()` — never spread.
 - Messages are facts, never commands; never `NoOp`.
+- NEVER open, read, list, or search `./docs/mockups`.
