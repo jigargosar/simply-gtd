@@ -21,20 +21,27 @@ A board is a vertical stack of **Sections**. Each Section has a title and a list
 ## Interaction & layout
 
 10. **Header**: always-visible (sticky) top header. Holds search + the global controls directly (no hamburger).
-11. **No top-level menu**: hamburger dropped — too few globals to justify it. Globals live as visible header controls: a **done show/hide toggle** and an **Archive view** button.
-12. **Add Item**: small "+ add" text button at the **end** of each section → opens the inline popover; new item appends at the bottom.
-13. **Add Section**: same pattern — small add button at the end of the board → inline popover.
-14. **One inline popover per entity**: clicking an Item or Section title opens a single **lightweight popover anchored to it** (not a board-dimming modal). It holds the edit field(s) plus the entity's 3–5 actions (edit / done / archive / move).
+11. **No top-level menu**: hamburger dropped — too few globals to justify it. Globals live as visible header controls: a **3-state done-filter** and an **Archive view** button. See [`interaction.md`](./interaction.md) I1.
+12. **Add Item**: small "+ add" text button at the **end** of each section → opens the inline popover; new item **inserts at the top**. See [`interaction.md`](./interaction.md) I2.
+13. **Add Section**: same pattern — small add button at the end of the board → inline popover; new section **inserts at the top**.
+14. **One inline popover per entity**: clicking an Item or Section title opens a single **lightweight popover anchored to it** (not a board-dimming modal). It holds the edit field(s) plus the entity's 3–5 actions (edit / done / archive / move). See [`interaction.md`](./interaction.md) I4/I5.
 15. **No hover-reveal, no ⋮ menu**: actions live in the inline popover. Hover dies on touch and hurts discoverability; with few items per section a click-to-open row is cleaner and touch-safe.
-16. **Done**: ticking **strikethroughs in place** (order unchanged). The header done-toggle controls done-item visibility.
-17. **Search**: input in the sticky header; typing shows a **flat dropdown** of matching results on the page (each result shows its section label).
+16. **Done**: ticking marks the item done in place (order unchanged). Done-item visibility is governed by the header 3-state filter (#11). Strikethrough rendering is open — see [`interaction.md`](./interaction.md) B2.
+17. **Search**: input in the sticky header; typing shows a **flat dropdown** of matching results on the page (each result shows its section label). See [`search.md`](./search.md).
 
 ## Sub-designs (cross-referenced)
 
 - **Item state / lifecycle** → [`item-state.md`](./item-state.md) — two-axis model (archived, done), delete-as-removal, transitions, derived visibility, archive view. E1 resolved (D10: section-delete cascades behind count-confirm).
+- **Persistence & data model** → [`persistence.md`](./persistence.md) — localStorage one-blob (P1/P2), uuid identity (P3), fractional-index ordering (P4), debounced autosave (P5).
+- **Search** → [`search.md`](./search.md) — scope = text + titles (S1), unrestricted corpus with archived hits marked (S2), click scrolls + highlights (S3).
+- **Interaction & board UI** → [`interaction.md`](./interaction.md) — 3-state done-filter (I1), add-at-top (I2), filtered-section footer (I3), multiline edit + OK/Cancel + blur-confirm (I4/I5), seed (I6), empty states (I7/I8), drag via kanban precedent.
+
+## Resolved questions (board-level)
+
+- Q-search-scope → **resolved**: item text **+** section titles. See [`search.md`](./search.md) S1.
+- Q-done-flag → **resolved**: a 3-state filter `Open | Done | All` governs visibility (not a strikethrough toggle). See [`interaction.md`](./interaction.md) I1.
+- Q-add-placement → **resolved**: new entries **insert at the top**. See [`interaction.md`](./interaction.md) I2.
 
 ## Open questions (board-level)
 
-- Q-search-scope: does search match item text only, or also section titles?
-- Q-done-flag: does the top-level done flag **hide** completed items, or toggle the strikethrough styling itself?
-- Q-add-placement: confirm new items append at bottom (vs top) — flagged to eval against similar apps.
+- See the **Open** sections in [`interaction.md`](./interaction.md) (A1 add-vs-restore direction, B1 filter persistence, B2 done strikethrough, D1 blur popup, E1 seed content) and [`search.md`](./search.md) (C1 archived-result click, C2 archived-hit presentation, C3 match style).
