@@ -35,3 +35,20 @@ These hold the rules; do not duplicate their content here — record only projec
 
 - Exact shadow values (elevation steps) and the tonal surface scale.
 - Foldkit components to standardize on — to be listed after scanning `repos/foldkit/`. Canonical usage example already in `src/main.ts`: `import { Button } from '@foldkit/ui'`, used via `Button.view({ onClick, toView })`.
+
+## Mock — resume notes
+
+Mock: `docs/board-mock.html` — data-driven from a `board` object.
+Serve: `pnpx serve docs -l 4178`. (In `docs/`, not off-limits `docs/mockups/`.)
+
+### Verified
+Header (title·search·controls); soft cards; single column; rows (checkbox·text·grip,
+grips always-on, right-aligned with section grips); move-picker list.
+
+### Applied — re-screenshot to confirm
+Add buttons right; inline edit no-shadow (in-flow); data-driven rewrite (8 sections);
+states gallery (footer "N filtered" + all-filtered, 3 filter states, archive view).
+
+### Unconfirmed — decide on return
+Move-picker design (→ interaction.md I11?); floating menus keep shadow vs inline edit
+none; move-picker alignment + width.
