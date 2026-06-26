@@ -45,4 +45,4 @@ A board is a vertical stack of **Sections**. Each Section has a title and a list
 
 ## Open questions (board-level)
 
-- None outstanding. Prior threads (A1, B1, B2, C1–C3, D1, E1) are resolved — see the **Resolved** sections in [`interaction.md`](./interaction.md) and the S2–S4 decisions in [`search.md`](./search.md).
+- None outstanding. Prior threads are resolved — see the **Resolved** sections in [`interaction.md`](./interaction.md) (A1, B1, B2, D1, E1) and [`search.md`](./search.md) (C1–C3, folded into decisions S2–S4).

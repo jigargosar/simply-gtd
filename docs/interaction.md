@@ -6,7 +6,7 @@
 ## Decisions (locked)
 
 - **I1 — Done-filter (header)**: a **three-state** filter over the main view: `Open` (done hidden — **default**) | `Done` (only done) | `All`. View-only — it never changes entity state. The selection **persists in the board blob** across reload. Replaces the binary "done show/hide toggle" framing in roadmap #11/#16.
-- **I2 — Add placement**: new entries **insert at the top** — a new Item at the top of its Section, a new Section at the top of the board. (Reverses roadmap #12/#13 "appends at the bottom"; see open A1.)
+- **I2 — Add placement**: new entries **insert at the top** — a new Item at the top of its Section, a new Section at the top of the board. (Reverses roadmap #12/#13 "appends at the bottom"; see resolved A1.)
 - **I3 — Filtered section**: a Section the done-filter leaves with no visible items **stays visible**. It shows a footer **"N filtered"** whenever ≥1 of its items is hidden by the current filter (shown on full and empty sections alike), plus its add button. The footer counts filter-hidden items only — not archived items (archive is a separate surface).
 - **I4 — Item text**: **multiline**.
 - **I5 — Commit / cancel**: the edit popover has explicit **OK / Cancel** buttons (the "internal dialog"). Edits commit only via OK; Cancel discards. **Blur** (clicking away) with unsaved changes shows a confirm with three choices — **Save / Discard / Keep editing** — rather than silently saving or discarding.
