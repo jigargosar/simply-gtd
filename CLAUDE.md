@@ -8,6 +8,7 @@ simply-gtd — a local-only "list-of-lists" GTD app. Foldkit (Effect + Elm archi
 - `docs/roadmap.md` — product spec hub: concept, locked decisions, open questions.
 - `docs/item-state.md` — two-axis item-state model (D1–D10): `archived` + `done`, delete-as-removal. E1 resolved.
 - `repos/foldkit/` — vendored framework subtree; canonical reference. Read-only, never import from it (import from `foldkit`).
+- `docs/handover.md` — current implementation status and next steps. Read at the start of each session; update it at the end.
 
 ## Model in one line
 
