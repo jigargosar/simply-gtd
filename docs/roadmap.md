@@ -34,7 +34,8 @@ A board is a vertical stack of **Sections**. Each Section has a title and a list
 - **Item state / lifecycle** → [`item-state.md`](./item-state.md) — two-axis model (archived, done), delete-as-removal, transitions, derived visibility, archive view. E1 resolved (D10: section-delete cascades behind count-confirm).
 - **Persistence & data model** → [`persistence.md`](./persistence.md) — localStorage one-blob (P1/P2), uuid identity (P3), fractional-index ordering (P4), debounced autosave (P5).
 - **Search** → [`search.md`](./search.md) — scope = text + titles (S1), unrestricted corpus with archived hits marked (S2), click scrolls + highlights (S3).
-- **Interaction & board UI** → [`interaction.md`](./interaction.md) — 3-state done-filter (I1), add-at-top (I2), filtered-section footer (I3), multiline edit + OK/Cancel + blur-confirm (I4/I5), seed (I6), empty states (I7/I8), drag via kanban precedent.
+- **Interaction & board UI** → [`interaction.md`](./interaction.md) — 3-state done-filter (I1), add-at-top (I2), filtered-section footer (I3), multiline edit + OK/Cancel + blur-confirm (I4/I5), seed (I6), empty states (I7/I8), collapse (I10), drag via kanban precedent.
+- **Visual design** → [`visual.md`](./visual.md) — soft cards (V1), light theme (V2), centered column (V3), segmented filter (V4), dodger-blue accent (V5), Inter (V6), comfortable density (V7), grip-handle drag (V8).
 
 ## Resolved questions (board-level)
 

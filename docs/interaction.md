@@ -17,6 +17,7 @@
 - **I7 — Empty Section** (zero items, not filter-hidden): show **title + add button**, nothing else.
 - **I8 — Empty board** (no Sections): show an **instruction to add** a Section.
 - **I9 — Done rendering**: done items render **struck-through** wherever shown (Done/All filter views, archive).
+- **I10 — Collapse**: each Section can collapse/expand via a **dedicated chevron/caret** on its header (title click still opens the popover, #14). Collapsed header shows **title + item count** (count = items visible under the current done-filter). Collapsed/expanded state **persists per section** across reload. **No** global collapse-all/expand-all — collapse is per-section only.
 
 ## Drag-reorder (cross-cutting)
 
