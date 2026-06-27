@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>simply-gtd — board identities v003</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:wght@500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Nunito:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ font-family:'Inter',system-ui,sans-serif; background:#0b0f14; color:#e5e7eb; padding:32px 24px 80px; -webkit-font-smoothing:antialiased; }
+  .page-head{ max-width:1320px; margin:0 auto 22px; }
+  .page-head h1{ font-size:22px; font-weight:700; letter-spacing:-.02em; }
+  .page-head p{ color:#9ca3af; font-size:14px; margin-top:6px; max-width:760px; }
+  .grid{ max-width:1320px; margin:0 auto; display:grid; grid-template-columns:repeat(2,1fr); gap:30px; }
+  @media (max-width:980px){ .grid{ grid-template-columns:1fr; } }
+  .variant{ border-radius:14px; overflow:hidden; box-shadow:0 8px 40px rgba(0,0,0,.5); }
+  .vlabel{ font-size:12px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; color:#cbd5e1; padding:0 2px 10px; display:flex; justify-content:space-between; align-items:baseline; }
+  .vlabel span{ color:#647084; font-weight:500; text-transform:none; letter-spacing:0; }
+  .app{ min-height:640px; }
+  .ck svg{ display:block; }
+  @media (prefers-reduced-motion: reduce){ *{ transition:none!important; } }
+
+  /* =================== A · TERMINAL =================== */
+  .t1{ background:#0B0E14; color:#C9D1D9; font-family:'JetBrains Mono',monospace; font-size:13px; line-height:1.7; padding:18px 18px 0; display:flex; flex-direction:column; }
+  .t1 .top{ display:flex; justify-content:space-between; color:#6E7681; padding-bottom:10px; border-bottom:1px solid #1B2230; }
+  .t1 .top b{ color:#3FB950; font-weight:700; }
+  .t1 .sec{ margin-top:14px; }
+  .t1 .sh{ color:#58A6FF; font-weight:700; letter-spacing:.04em; }
+  .t1 .sh .n{ color:#6E7681; font-weight:400; }
+  .t1 .row{ display:flex; gap:8px; padding:1px 6px; border-radius:3px; white-space:pre; }
+  .t1 .row:hover{ background:#11161D; }
+  .t1 .row.cur{ background:#11161D; }
+  .t1 .cur .cur-m{ color:#3FB950; }
+  .t1 .box{ color:#6E7681; }
+  .t1 .done .box{ color:#3FB950; }
+  .t1 .txt{ flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; }
+  .t1 .done .txt{ color:#5C6370; text-decoration:line-through; }
+  .t1 .tag{ color:#BC8CFF; }
+  .t1 .ts{ color:#56616F; }
+  .t1 .sub{ color:#8B949E; }
+  .t1 .add{ color:#56616F; padding:1px 6px; }
+  .t1 .status{ margin-top:auto; margin-left:-18px; margin-right:-18px; background:#11161D; border-top:1px solid #1B2230; color:#6E7681; font-size:11.5px; padding:7px 18px; display:flex; gap:14px; }
+  .t1 .status b{ color:#3FB950; font-weight:500; }
+
+  /* =================== B · EDITORIAL =================== */
+  .e2{ background:#FFFFFF; color:#16130F; padding:30px 30px 24px; }
+  .e2 .top{ display:flex; justify-content:space-between; align-items:baseline; padding-bottom:18px; border-bottom:2px solid #16130F; margin-bottom:26px; }
+  .e2 .top b{ font-family:'Playfair Display',serif; font-size:22px; font-weight:800; letter-spacing:-.01em; }
+  .e2 .top a{ font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:#9A8F82; }
+  .e2 .sec{ margin-bottom:30px; }
+  .e2 .kick{ font-size:10.5px; letter-spacing:.22em; text-transform:uppercase; color:#B91C1C; font-weight:600; }
+  .e2 .sh{ font-family:'Playfair Display',serif; font-size:29px; font-weight:700; letter-spacing:-.02em; margin:2px 0 14px; }
+  .e2 .row{ display:grid; grid-template-columns:38px 1fr 22px; align-items:start; gap:14px; padding:14px 0; border-top:1px solid #E7E2DA; cursor:pointer; }
+  .e2 .row:hover .cap{ color:#B91C1C; }
+  .e2 .num{ font-family:'Playfair Display',serif; font-size:18px; color:#C2B8AC; line-height:1.5; }
+  .e2 .done .num{ color:#B91C1C; }
+  .e2 .cap{ font-size:15.5px; line-height:1.5; transition:color .15s; }
+  .e2 .done .cap{ color:#A99F94; text-decoration:line-through; text-decoration-thickness:1px; }
+  .e2 .ts{ font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:#A99F94; margin-top:5px; }
+  .e2 .ck{ width:22px; height:22px; border:1.5px solid #C2B8AC; border-radius:999px; display:grid; place-items:center; margin-top:2px; }
+  .e2 .ck svg{ width:11px; height:11px; opacity:0; color:#fff; }
+  .e2 .done .ck{ background:#B91C1C; border-color:#B91C1C; }
+  .e2 .done .ck svg{ opacity:1; }
+  .e2 .add{ display:flex; gap:14px; align-items:center; padding:14px 0; border-top:1px solid #E7E2DA; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:#9A8F82; }
+
+  /* =================== C · BRUTALIST =================== */
+  .b3{ background:#FFFDF5; color:#000; font-family:'Space Grotesk',sans-serif; padding:22px; }
+  .b3 .top{ display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
+  .b3 .top b{ font-size:20px; font-weight:700; letter-spacing:-.02em; }
+  .b3 .addbtn{ font-family:'Space Grotesk'; font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:.04em; background:#1D4ED8; color:#fff; border:2.5px solid #000; box-shadow:4px 4px 0 #000; padding:8px 14px; cursor:pointer; }
+  .b3 .sec{ border:2.5px solid #000; box-shadow:6px 6px 0 #000; background:#fff; margin-bottom:22px; }
+  .b3 .sh{ background:#000; color:#fff; display:flex; justify-content:space-between; align-items:center; padding:9px 13px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; font-size:14px; }
+  .b3 .sh .n{ border:2px solid #fff; padding:0 8px; font-size:12px; }
+  .b3 .row{ display:flex; align-items:center; gap:12px; padding:11px 13px; border-bottom:2px solid #000; cursor:pointer; }
+  .b3 .row:last-child{ border-bottom:none; }
+  .b3 .row:hover{ background:#FFE600; }
+  .b3 .ck{ width:21px; height:21px; border:2.5px solid #000; flex:none; display:grid; place-items:center; background:#fff; }
+  .b3 .ck svg{ width:13px; height:13px; opacity:0; color:#fff; }
+  .b3 .done .ck{ background:#000; }
+  .b3 .done .ck svg{ opacity:1; }
+  .b3 .txt{ flex:1; font-size:14px; font-weight:500; }
+  .b3 .done .txt{ text-decoration:line-through; opacity:.5; }
+  .b3 .ts{ font-family:'JetBrains Mono'; font-size:11px; font-weight:500; flex:none; }
+  .b3 .add{ display:flex; align-items:center; gap:12px; padding:11px 13px; font-weight:700; text-transform:uppercase; font-size:12px; letter-spacing:.04em; color:#1D4ED8; }
+  .b3 .add .p{ width:21px; height:21px; border:2.5px solid #1D4ED8; display:grid; place-items:center; }
+
+  /* =================== D · SOFT UI =================== */
+  .s4{ background:#ECEAF6; color:#494866; font-family:'Nunito',sans-serif; padding:24px; }
+  .s4 .top{ display:flex; justify-content:space-between; align-items:center; margin-bottom:22px; }
+  .s4 .top .brand{ display:flex; align-items:center; gap:11px; }
+  .s4 .top .logo{ width:34px; height:34px; border-radius:12px; background:#ECEAF6; box-shadow:5px 5px 10px #cfcce0,-5px -5px 10px #ffffff; display:grid; place-items:center; color:#7C6FF0; }
+  .s4 .top b{ font-size:17px; font-weight:800; }
+  .s4 .addbtn{ font-family:'Nunito'; font-weight:700; font-size:13px; color:#fff; background:#7C6FF0; border:none; border-radius:999px; padding:10px 18px; box-shadow:4px 4px 9px #c2bedd; cursor:pointer; }
+  .s4 .sec{ background:#F3F2FB; border-radius:20px; padding:18px 18px 10px; margin-bottom:18px; box-shadow:7px 7px 16px #d6d3e8,-7px -7px 16px #ffffff; }
+  .s4 .sh{ display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+  .s4 .sh h3{ font-size:16px; font-weight:800; color:#3B3A57; }
+  .s4 .sh .n{ font-size:12px; font-weight:700; color:#7C6FF0; background:#ECEAF6; border-radius:999px; padding:2px 11px; box-shadow:inset 2px 2px 5px #d3d0e6,inset -2px -2px 5px #ffffff; }
+  .s4 .row{ display:flex; align-items:flex-start; gap:13px; padding:11px 8px; border-radius:14px; cursor:pointer; transition:background .2s; }
+  .s4 .row:hover{ background:#ECEAF6; }
+  .s4 .ck{ width:22px; height:22px; border-radius:999px; flex:none; margin-top:1px; background:#ECEAF6; box-shadow:inset 2px 2px 5px #d3d0e6,inset -2px -2px 5px #ffffff; display:grid; place-items:center; }
+  .s4 .ck svg{ width:12px; height:12px; opacity:0; color:#fff; }
+  .s4 .done .ck{ background:#7C6FF0; box-shadow:none; }
+  .s4 .done .ck svg{ opacity:1; }
+  .s4 .txt{ flex:1; font-size:14.5px; font-weight:600; line-height:1.45; }
+  .s4 .done .txt{ text-decoration:line-through; color:#A9A6C2; }
+  .s4 .ts{ font-size:11.5px; font-weight:600; color:#A9A6C2; margin-top:3px; }
+  .s4 .add{ display:flex; align-items:center; gap:13px; padding:11px 8px; font-weight:700; font-size:14px; color:#7C6FF0; }
+  .s4 .add .p{ width:22px; height:22px; border-radius:999px; background:#ECEAF6; box-shadow:3px 3px 6px #d3d0e6,-3px -3px 6px #ffffff; display:grid; place-items:center; }
+</style>
+</head>
+<body>
+  <div class="page-head">
+    <h1>simply-gtd — four board identities (v003)</h1>
+    <p>Same GTD content, four <em>distinct</em> visual identities — each changes typeface, colour world, item anatomy, and chrome together. All vertical lists. Pick the personality; structure/density gets tuned after.</p>
+  </div>
+
+  <div class="grid">
+
+    <!-- ============ A · TERMINAL ============ -->
+    <div class="variant">
+      <div class="vlabel">A · Terminal <span>mono · dark · keyboard-first</span></div>
+      <div class="app t1">
+        <div class="top"><span><b>simply-gtd</b> ~/board</span><span>[a]dd  [/]find</span></div>
+
+        <div class="sec">
+          <div class="sh">▾ TODAY <span class="n">(3)</span></div>
+          <div class="row cur"><span class="cur-m">›</span><span class="box">[ ]</span><span class="txt">Draft the quarterly review outline <span class="tag">#work</span></span><span class="ts">2d</span></div>
+          <div class="row"><span class="cur-m"> </span><span class="sub">  └─</span><span class="txt sub">pull last quarter's metrics</span><span class="ts">2d</span></div>
+          <div class="row done"><span class="cur-m"> </span><span class="box">[x]</span><span class="txt">Reply to onboarding email</span><span class="ts">09:14</span></div>
+          <div class="row"><span class="cur-m"> </span><span class="box">[ ]</span><span class="txt">Book dentist appointment <span class="tag">#life</span></span><span class="ts">5h</span></div>
+          <div class="add">  + add item…</div>
+        </div>
+
+        <div class="sec">
+          <div class="sh">▸ SOMEDAY <span class="n">(1)</span></div>
+        </div>
+        <div class="sec">
+          <div class="sh">▾ WAITING ON <span class="n">(1)</span></div>
+          <div class="row"><span class="cur-m"> </span><span class="box">[ ]</span><span class="txt">Invoice from contractor</span><span class="ts">1w</span></div>
+        </div>
+
+        <div class="status"><span><b>4</b> open · <b>1</b> done</span><span>j/k move · x done · e archive · d delete</span></div>
+      </div>
+    </div>
+
+    <!-- ============ B · EDITORIAL ============ -->
+    <div class="variant">
+      <div class="vlabel">B · Editorial <span>serif · whitespace · print</span></div>
+      <div class="app e2">
+        <div class="top"><b>simply-gtd</b><a>The Board</a></div>
+
+        <div class="sec">
+          <div class="kick">Section 01</div>
+          <div class="sh">Today</div>
+          <div class="row"><div class="num">01</div><div><div class="cap">Draft the quarterly review outline</div><div class="ts">Added 2 days ago</div></div><div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="4 12 9 17 20 6"/></svg></div></div>
+          <div class="row done"><div class="num">02</div><div><div class="cap">Reply to onboarding email</div><div class="ts">Done · today 09:14</div></div><div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="4 12 9 17 20 6"/></svg></div></div>
+          <div class="row"><div class="num">03</div><div><div class="cap">Book dentist appointment</div><div class="ts">Added 5 hours ago</div></div><div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="4 12 9 17 20 6"/></svg></div></div>
+          <div class="add">＋ Add item</div>
+        </div>
+
+        <div class="sec">
+          <div class="kick">Section 02</div>
+          <div class="sh">Someday</div>
+          <div class="row"><div class="num">01</div><div><div class="cap">Learn watercolour basics</div><div class="ts">Added 3 weeks ago</div></div><div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="4 12 9 17 20 6"/></svg></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ C · BRUTALIST ============ -->
+    <div class="variant">
+      <div class="vlabel">C · Brutalist <span>grotesk · borders · hard shadow</span></div>
+      <div class="app b3">
+        <div class="top"><b>simply-gtd</b><button class="addbtn">＋ New</button></div>
+
+        <div class="sec">
+          <div class="sh">TODAY <span class="n">3</span></div>
+          <div class="row"><div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="4 12 9 17 20 6"/></svg></div><div class="txt">Draft the quarterly review outline</div><div class="ts">2d</div></div>
+          <div class="row done"><div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="4 12 9 17 20 6"/></svg></div><div class="txt">Reply to onboarding email</div><div class="ts">09:14</div></div>
+          <div class="row"><div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="4 12 9 17 20 6"/></svg></div><div class="txt">Book dentist appointment</div><div class="ts">5h</div></div>
+          <div class="add"><div class="p"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg></div>ADD ITEM</div>
+        </div>
+
+        <div class="sec">
+          <div class="sh">SOMEDAY <span class="n">1</span></div>
+          <div class="row"><div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="4 12 9 17 20 6"/></svg></div><div class="txt">Learn watercolour basics</div><div class="ts">3w</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ D · SOFT UI ============ -->
+    <div class="variant">
+      <div class="vlabel">D · Soft UI <span>rounded · pastel · tactile</span></div>
+      <div class="app s4">
+        <div class="top">
+          <div class="brand"><div class="logo"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="4 12 9 17 20 6"/></svg></div><b>simply-gtd</b></div>
+          <button class="addbtn">＋ New</button>
+        </div>
+
+        <div class="sec">
+          <div class="sh"><h3>Today</h3><span class="n">3</span></div>
+          <div class="row"><div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="4 12 9 17 20 6"/></svg></div><div class="txt">Draft the quarterly review outline<div class="ts">added 2d ago</div></div></div>
+          <div class="row done"><div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="4 12 9 17 20 6"/></svg></div><div class="txt">Reply to onboarding email<div class="ts">done · today 09:14</div></div></div>
+          <div class="row"><div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="4 12 9 17 20 6"/></svg></div><div class="txt">Book dentist appointment<div class="ts">added 5h ago</div></div></div>
+          <div class="add"><div class="p"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg></div>Add an item…</div>
+        </div>
+
+        <div class="sec">
+          <div class="sh"><h3>Someday</h3><span class="n">1</span></div>
+          <div class="row"><div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="4 12 9 17 20 6"/></svg></div><div class="txt">Learn watercolour basics<div class="ts">added 3w ago</div></div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
