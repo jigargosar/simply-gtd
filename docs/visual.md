@@ -2,7 +2,7 @@
 
 > Scope: the finished look — style direction, theme, layout, color, type, density, affordances.
 > Hub: [`roadmap.md`](./roadmap.md). Sibling specs: [`interaction.md`](./interaction.md), [`persistence.md`](./persistence.md), [`search.md`](./search.md), [`item-state.md`](./item-state.md).
-> Mockups: `docs/mockups/board-vNNN.html` (latest = current). Serve via `pnpx serve docs/mockups`.
+> Mock: `docs/board-mock.html` — current working mock (see "Mock — resume notes" below). Serve via `pnpx serve docs -l 4178`. Older `docs/mockups/board-vNNN.html` files are off-limits — do not open.
 
 ## Skills — load before UI / mockup / Foldkit work
 

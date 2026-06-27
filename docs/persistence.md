@@ -2,6 +2,8 @@
 
 > Scope: how the board is stored, identified, ordered, and saved. Implementation-leaning, but decisions only — not code.
 > Hub: [`roadmap.md`](./roadmap.md). Sibling specs: [`search.md`](./search.md), [`interaction.md`](./interaction.md), [`item-state.md`](./item-state.md).
+>
+> Status: conceptual decisions (entities, two-axis state, timestamps — roadmap/item-state) are locked. The exact Schema/field shape below (names, types, nesting vs reference, where UI state lives) is a working model, tentative until the view-first step and modeling validate it.
 
 ## Decisions (locked)
 
