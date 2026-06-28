@@ -20,7 +20,7 @@
 - **Lint:** `pnpm lint` = `oxlint --disable-nested-config` (stops oxlint loading vendored `repos/**/.oxlintrc.json`, which fails on a missing JS plugin).
 - **Typecheck:** `tsconfig.json` now `exclude: ["repos", "dist", "node_modules"]`.
 - **IDE:** vendored `repos/` is excluded in WebStorm (`.idea`, user-managed) to silence TS2307 on example deps (`clsx`, `maplibre-gl`). Not a lint issue.
-- **View decomposition (discussed, not yet a written rule):** keep each view to ~3 nested levels then extract a named sub-view; pass narrow model slices (e.g. `greeting: string`), never the whole `Model` into large/leaf views, so signatures stay honest and sibling call-sites read as a dependency manifest. Candidate one-liner for `CLAUDE.md` if we adopt it.
+- **Code shape guardrails (now in `CLAUDE.md`):** whole-project rules — ~3 nesting levels max then extract; no "small/throwaway" exemptions (broken windows); pass narrow slices not whole objects; keep sibling calls at one level of abstraction. Framed as human-readability limits, not style.
 
 ## Next (phase order)
 

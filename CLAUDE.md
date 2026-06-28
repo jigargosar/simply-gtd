@@ -30,3 +30,13 @@ Board → Sections (titled) → Items (text + done + timestamps). Each entity ca
 - Messages are facts, never commands; never `NoOp`.
 - NEVER open, read, list, or search `./docs/mockups`.
 - NEVER use worktrees. Do not call EnterWorktree; work in the shared checkout. Banned until the user explicitly lifts this.
+
+## Code shape — human guardrails (whole project, no exceptions)
+
+Limits on what a person can hold in their head, not style. Apply to every function: view, update, command, helper, test.
+
+- Keep nesting to ~3 levels. Deeper, extract a named function. A reader must see head and tail, know which bracket belongs to whom, and where a new argument would go.
+- No exemptions for "small", "throwaway", or "just one function". Broken windows: one tolerated mess becomes the norm the whole project copies.
+- Pass the slice a function uses, not the whole object (a field, not the whole `Model`). The signature is the honest dependency list; an unused parameter should lint. A whole-object parameter in a long body is a hidden global.
+- At a composition point, keep every sibling call at one level of abstraction. If siblings are extracted, extract the small one too, so the parent reads as a list of named calls and their inputs.
+- If a function is not scannable at a glance, extract until it is.
