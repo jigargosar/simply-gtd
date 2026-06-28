@@ -9,7 +9,7 @@
     "typecheck": "tsc --noEmit",
     "format": "prettier -w .",
     "test": "vitest run",
-    "lint": "oxlint"
+    "lint": "oxlint --disable-nested-config"
   },
   "dependencies": {
     "@effect/platform-browser": "4.0.0-beta.88",
