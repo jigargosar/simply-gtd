@@ -29,3 +29,4 @@ Board → Sections (titled) → Items (text + done + timestamps). Each entity ca
 - Model fields are Schema types. Immutable updates via `evo()` — never spread.
 - Messages are facts, never commands; never `NoOp`.
 - NEVER open, read, list, or search `./docs/mockups`.
+- NEVER use worktrees. Do not call EnterWorktree; work in the shared checkout. Banned until the user explicitly lifts this.
