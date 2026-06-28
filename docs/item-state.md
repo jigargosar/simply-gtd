@@ -12,12 +12,12 @@ Every entity (Section, Item) carries two independent boolean axes:
 
 They are orthogonal — all four combinations are valid:
 
-| archived | done | meaning |
-|----------|------|---------|
-| not-archived | not-done | open item on the board |
-| not-archived | done | completed item, struck through, still on the board |
-| archived | not-done | archived, never completed |
-| archived | done | completed, then archived |
+| archived     | done     | meaning                                            |
+| ------------ | -------- | -------------------------------------------------- |
+| not-archived | not-done | open item on the board                             |
+| not-archived | done     | completed item, struck through, still on the board |
+| archived     | not-done | archived, never completed                          |
+| archived     | done     | completed, then archived                           |
 
 There is no "active" state — "active" was just an ambiguous name for `not-archived`. Name each axis by its own pair.
 

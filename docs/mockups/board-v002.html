@@ -1,115 +1,145 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>simply-gtd — board v002</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'] },
-        colors: {
-          accent: { DEFAULT: '#1e90ff', ink: '#0b6bcb', soft: '#e6f1ff' },
-          line: '#e7e9ec',
-          ink: '#1b1d20',
-          muted: '#8b9096',
-          faint: '#aab0b6',
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>simply-gtd — board v002</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            },
+            colors: {
+              accent: { DEFAULT: '#1e90ff', ink: '#0b6bcb', soft: '#e6f1ff' },
+              line: '#e7e9ec',
+              ink: '#1b1d20',
+              muted: '#8b9096',
+              faint: '#aab0b6',
+            },
+            boxShadow: {
+              card: '0 1px 2px rgba(16,18,26,.05)',
+              pop: '0 8px 28px rgba(16,18,26,.14)',
+            },
+          },
         },
-        boxShadow: { card: '0 1px 2px rgba(16,18,26,.05)', pop: '0 8px 28px rgba(16,18,26,.14)' },
-      },
-    },
-  }
-</script>
-</head>
-<body class="bg-[#f6f7f8] text-ink font-sans antialiased">
+      }
+    </script>
+  </head>
+  <body class="bg-[#f6f7f8] text-ink font-sans antialiased">
+    <div id="app" class="max-w-[680px] mx-auto px-5 pt-6 pb-24"></div>
 
-  <div id="app" class="max-w-[680px] mx-auto px-5 pt-6 pb-24"></div>
+    <script>
+      // ---- DATA ----
+      const board = {
+        filter: 'open', // open | done | all
+        sections: [
+          {
+            id: 's1',
+            title: 'Today',
+            collapsed: false,
+            items: [
+              {
+                id: 'i1',
+                text: 'Draft the persistence spec and get sign-off',
+                done: false,
+              },
+              {
+                id: 'i2',
+                text: 'Call the plumber about the leak',
+                done: false,
+              },
+              { id: 'i3', text: 'Send invoice #204', done: true },
+              { id: 'i4', text: 'Reply to Dana', done: true },
+            ],
+          },
+          {
+            id: 's2',
+            title: 'Errands',
+            collapsed: true,
+            items: [
+              { id: 'i5', text: 'Buy milk', done: false },
+              { id: 'i6', text: 'Pick up parcel', done: false },
+              { id: 'i7', text: 'Pharmacy', done: false },
+              { id: 'i8', text: 'Car wash', done: false },
+              { id: 'i9', text: 'Bank', done: false },
+            ],
+          },
+          { id: 's3', title: 'Someday / Maybe', collapsed: false, items: [] },
+        ],
+      }
 
-  <script>
-    // ---- DATA ----
-    const board = {
-      filter: 'open', // open | done | all
-      sections: [
+      const searchResults = [
+        { text: 'Send <b>inv</b>oice #204', section: 'Today', archived: false },
         {
-          id: 's1', title: 'Today', collapsed: false,
-          items: [
-            { id: 'i1', text: 'Draft the persistence spec and get sign-off', done: false },
-            { id: 'i2', text: 'Call the plumber about the leak', done: false },
-            { id: 'i3', text: 'Send invoice #204', done: true },
-            { id: 'i4', text: 'Reply to Dana', done: true },
-          ],
+          text: 'File quarterly <b>inv</b>entory',
+          section: 'Errands',
+          archived: false,
         },
         {
-          id: 's2', title: 'Errands', collapsed: true,
-          items: [
-            { id: 'i5', text: 'Buy milk', done: false },
-            { id: 'i6', text: 'Pick up parcel', done: false },
-            { id: 'i7', text: 'Pharmacy', done: false },
-            { id: 'i8', text: 'Car wash', done: false },
-            { id: 'i9', text: 'Bank', done: false },
-          ],
+          text: 'Old <b>inv</b>oice template',
+          section: 'Admin',
+          archived: true,
         },
-        { id: 's3', title: 'Someday / Maybe', collapsed: false, items: [] },
-      ],
-    }
+      ]
 
-    const searchResults = [
-      { text: 'Send <b>inv</b>oice #204', section: 'Today', archived: false },
-      { text: 'File quarterly <b>inv</b>entory', section: 'Errands', archived: false },
-      { text: 'Old <b>inv</b>oice template', section: 'Admin', archived: true },
-    ]
+      // ---- HELPERS ----
+      const grip = `<span class="select-none cursor-grab text-faint/70 text-sm leading-none pt-1" title="drag to reorder">⠿</span>`
 
-    // ---- HELPERS ----
-    const grip = `<span class="select-none cursor-grab text-faint/70 text-sm leading-none pt-1" title="drag to reorder">⠿</span>`
+      const visibleItems = s =>
+        board.filter === 'open'
+          ? s.items.filter(i => !i.done)
+          : board.filter === 'done'
+            ? s.items.filter(i => i.done)
+            : s.items
+      const filteredCount = s => s.items.length - visibleItems(s).length
 
-    const visibleItems = (s) =>
-      board.filter === 'open' ? s.items.filter(i => !i.done)
-      : board.filter === 'done' ? s.items.filter(i => i.done)
-      : s.items
-    const filteredCount = (s) => s.items.length - visibleItems(s).length
-
-    // ---- VIEWS ----
-    const checkbox = (done) => `
+      // ---- VIEWS ----
+      const checkbox = done => `
       <span class="mt-0.5 w-4 h-4 rounded-[5px] border-[1.5px] flex-none grid place-items-center
         ${done ? 'bg-accent border-accent' : 'border-faint'}">
         ${done ? '<span class="text-white text-[11px] leading-none">✓</span>' : ''}
       </span>`
 
-    const itemView = (it) => `
+      const itemView = it => `
       <div class="group flex items-start gap-2.5 px-2 py-2 rounded-md hover:bg-black/[.02] cursor-default">
         ${grip}
         ${checkbox(it.done)}
         <span class="text-[14px] leading-snug ${it.done ? 'line-through text-[#b3b8be]' : ''}">${it.text}</span>
       </div>`
 
-    const sectionView = (s) => {
-      const vis = visibleItems(s)
-      const hidden = filteredCount(s)
-      const header = `
+      const sectionView = s => {
+        const vis = visibleItems(s)
+        const hidden = filteredCount(s)
+        const header = `
         <div class="flex items-center gap-2 px-1 py-1.5">
           ${grip}
           <span class="text-faint text-xs w-3.5 text-center select-none cursor-pointer transition-transform ${s.collapsed ? '-rotate-90' : ''}">▾</span>
           <span class="text-[14px] font-semibold cursor-pointer">${s.title}</span>
           ${s.collapsed ? `<span class="text-faint text-[13px] font-medium">(${vis.length})</span>` : ''}
         </div>`
-      if (s.collapsed) return `<div class="my-3.5 bg-white border border-line rounded-[10px] shadow-card px-2.5 pt-1.5 pb-2.5">${header}</div>`
-      const body = `
+        if (s.collapsed)
+          return `<div class="my-3.5 bg-white border border-line rounded-[10px] shadow-card px-2.5 pt-1.5 pb-2.5">${header}</div>`
+        const body = `
         ${vis.map(itemView).join('')}
         ${vis.length === 0 && hidden === 0 ? `<div class="text-[13px] text-faint pl-[34px] py-1">No items yet</div>` : ''}
         ${hidden > 0 ? `<div class="text-xs text-faint italic pl-[34px] pt-1 pb-0.5">${hidden} filtered</div>` : ''}
         <div class="text-[13px] text-accent-ink font-medium pl-[34px] py-1.5 cursor-pointer">+ add</div>`
-      return `<div class="my-3.5 bg-white border border-line rounded-[10px] shadow-card px-2.5 pt-1.5 pb-2.5">${header}${body}</div>`
-    }
+        return `<div class="my-3.5 bg-white border border-line rounded-[10px] shadow-card px-2.5 pt-1.5 pb-2.5">${header}${body}</div>`
+      }
 
-    const seg = (val, label) => `
+      const seg = (val, label) => `
       <button class="px-3 py-[7px] text-[13px] ${board.filter === val ? 'bg-accent-soft text-accent-ink font-semibold' : 'text-muted'}">${label}</button>`
 
-    const headerView = () => `
+      const headerView = () => `
       <header class="sticky top-0 z-40 bg-[#f6f7f8] pt-2 pb-3">
         <h1 class="text-[15px] font-bold tracking-tight mb-3">simply-gtd</h1>
         <div class="flex gap-2.5 items-center">
@@ -119,13 +149,13 @@
               class="w-full pl-8 pr-3 py-2 border border-line rounded-lg bg-white text-[14px] placeholder:text-faint focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent" />
           </div>
           <div class="inline-flex border border-line rounded-lg overflow-hidden bg-white divide-x divide-line">
-            ${seg('open','Open')}${seg('done','Done')}${seg('all','All')}
+            ${seg('open', 'Open')}${seg('done', 'Done')}${seg('all', 'All')}
           </div>
           <button class="border border-line bg-white rounded-lg px-2.5 py-[7px] text-[13px] text-muted">Archive</button>
         </div>
       </header>`
 
-    const popoverDemo = () => `
+      const popoverDemo = () => `
       <div class="text-center text-[11px] uppercase tracking-wider text-faint mt-10 mb-1.5">Inline edit popover</div>
       <div class="max-w-[340px] mx-auto">
         <div class="bg-white border border-line rounded-[10px] shadow-pop p-3">
@@ -141,31 +171,35 @@
         </div>
       </div>`
 
-    const dropdownDemo = () => `
+      const dropdownDemo = () => `
       <div class="text-center text-[11px] uppercase tracking-wider text-faint mt-10 mb-1.5">Search results</div>
       <div class="max-w-[440px] mx-auto">
         <div class="bg-white border border-line rounded-[10px] shadow-pop overflow-hidden divide-y divide-line">
-          ${searchResults.map(r => `
+          ${searchResults
+            .map(
+              r => `
             <div class="flex items-center gap-2 px-3 py-2.5 text-[14px] hover:bg-accent-soft cursor-pointer">
               ${r.archived ? `<span class="text-[10px] font-bold tracking-wide text-[#9a6b00] bg-[#fdf3d6] rounded px-1.5 py-0.5 uppercase">archived</span>` : ''}
               <span>${r.text}</span>
               <span class="ml-auto text-faint text-xs">${r.section}</span>
-            </div>`).join('')}
+            </div>`,
+            )
+            .join('')}
         </div>
       </div>`
 
-    const emptyBoardDemo = () => `
+      const emptyBoardDemo = () => `
       <div class="text-center text-[11px] uppercase tracking-wider text-faint mt-10 mb-1.5">Empty board</div>
       <div class="text-center text-muted py-12 text-[14px]">No sections yet — <span class="text-accent-ink">add your first section</span> to get started.</div>`
 
-    // ---- RENDER ----
-    document.getElementById('app').innerHTML =
-      headerView()
-      + board.sections.map(sectionView).join('')
-      + `<div class="text-[13px] text-muted py-3 cursor-pointer text-center border border-dashed border-line rounded-lg mt-2 font-medium">+ add section</div>`
-      + popoverDemo()
-      + dropdownDemo()
-      + emptyBoardDemo()
-  </script>
-</body>
+      // ---- RENDER ----
+      document.getElementById('app').innerHTML =
+        headerView() +
+        board.sections.map(sectionView).join('') +
+        `<div class="text-[13px] text-muted py-3 cursor-pointer text-center border border-dashed border-line rounded-lg mt-2 font-medium">+ add section</div>` +
+        popoverDemo() +
+        dropdownDemo() +
+        emptyBoardDemo()
+    </script>
+  </body>
 </html>

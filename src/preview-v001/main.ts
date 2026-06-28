@@ -1,6 +1,6 @@
 import { Match as M, Schema as S } from 'effect'
 import { Command, Runtime } from 'foldkit'
-import { Document, html } from 'foldkit/html'
+import { Document, Html, html } from 'foldkit/html'
 import { m } from 'foldkit/message'
 
 import { Button } from '@foldkit/ui'
@@ -34,7 +34,9 @@ export const update = (
       ClickedGreeting: () => [
         {
           greeting:
-            model.greeting === FIRST_GREETING ? SECOND_GREETING : FIRST_GREETING,
+            model.greeting === FIRST_GREETING
+              ? SECOND_GREETING
+              : FIRST_GREETING,
         },
         [],
       ],
@@ -56,26 +58,26 @@ export const view = (model: Model): Document => {
   return {
     title: 'simply-gtd | preview v001',
     body: h.div(
-      [
-        h.Class(
-          'min-h-screen bg-white flex items-center justify-center p-6',
-        ),
-      ],
-      [
-        Button.view<Message>({
-          onClick: ClickedGreeting(),
-          toView: attributes =>
-            h.button(
-              [
-                ...attributes.button,
-                h.Class(
-                  'text-2xl font-semibold text-gray-900 hover:text-blue-600 transition',
-                ),
-              ],
-              [model.greeting],
-            ),
-        }),
-      ],
+      [h.Class('min-h-screen bg-white flex items-center justify-center p-6')],
+      [helloButtonView(model.greeting)],
     ),
   }
+}
+
+const helloButtonView = (greeting: string): Html => {
+  const h = html<Message>()
+
+  return Button.view<Message>({
+    onClick: ClickedGreeting(),
+    toView: attributes =>
+      h.button(
+        [
+          ...attributes.button,
+          h.Class(
+            'text-2xl font-semibold text-gray-900 hover:text-blue-600 transition',
+          ),
+        ],
+        [greeting],
+      ),
+  })
 }

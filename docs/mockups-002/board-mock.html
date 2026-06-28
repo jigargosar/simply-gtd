@@ -51,18 +51,28 @@
 
   <body class="bg-page text-ink font-sans antialiased">
     <!-- ===== STICKY HEADER: title · search · controls ===== -->
-    <header class="sticky top-0 z-20 border-b border-hair bg-white/90 backdrop-blur">
+    <header
+      class="sticky top-0 z-20 border-b border-hair bg-white/90 backdrop-blur"
+    >
       <div class="mx-auto flex max-w-[680px] items-center gap-3 px-4 py-3">
         <div class="flex shrink-0 items-center gap-2">
-          <span class="grid h-7 w-7 place-items-center rounded-md bg-accent text-white">
+          <span
+            class="grid h-7 w-7 place-items-center rounded-md bg-accent text-white"
+          >
             <i data-lucide="check-square" class="h-4 w-4"></i>
           </span>
           <span class="text-base font-semibold tracking-tight">simply-gtd</span>
         </div>
         <label class="relative min-w-0 flex-1">
-          <i data-lucide="search" class="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted"></i>
-          <input type="search" placeholder="Search items and sections…"
-            class="w-full rounded-lg border border-hair bg-page py-1.5 pl-8 pr-3 text-sm placeholder:text-muted focus:bg-white" />
+          <i
+            data-lucide="search"
+            class="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted"
+          ></i>
+          <input
+            type="search"
+            placeholder="Search items and sections…"
+            class="w-full rounded-lg border border-hair bg-page py-1.5 pl-8 pr-3 text-sm placeholder:text-muted focus:bg-white"
+          />
         </label>
         <div id="filter" class="flex shrink-0 items-center gap-2"></div>
       </div>
@@ -82,8 +92,15 @@
             title: 'Inbox',
             collapsed: false,
             items: [
-              { text: 'Reply to the venue about the June booking', done: false, ui: 'move' },
-              { text: 'Draft the Q3 plan — sections for hiring, budget, and the two product bets; share with the team before Friday', done: false },
+              {
+                text: 'Reply to the venue about the June booking',
+                done: false,
+                ui: 'move',
+              },
+              {
+                text: 'Draft the Q3 plan — sections for hiring, budget, and the two product bets; share with the team before Friday',
+                done: false,
+              },
               { text: 'Renew the domain', done: true },
               { text: 'Skim the new onboarding doc', done: false },
             ],
@@ -101,7 +118,10 @@
             title: 'Projects',
             collapsed: false,
             items: [
-              { text: 'Wire up persistence (localStorage one-blob)', done: false },
+              {
+                text: 'Wire up persistence (localStorage one-blob)',
+                done: false,
+              },
               { text: 'Fractional-index ordering for drag', done: false },
               { text: 'Pick the icon set', done: true },
             ],
@@ -220,7 +240,7 @@
                 .map(t =>
                   t === currentTitle
                     ? `<li><button class="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm font-medium text-accentText"><span class="flex-1 truncate">${esc(t)}</span><span class="text-xs text-muted">current</span><i data-lucide="check" class="h-4 w-4 shrink-0"></i></button></li>`
-                    : `<li><button class="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm hover:bg-page"><span class="flex-1 truncate">${esc(t)}</span></button></li>`
+                    : `<li><button class="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm hover:bg-page"><span class="flex-1 truncate">${esc(t)}</span></button></li>`,
                 )
                 .join('')}
             </ul>
@@ -319,7 +339,7 @@
           .map(l =>
             l.toLowerCase() === active
               ? `<span class="rounded-md bg-accent/15 px-2.5 py-1 font-medium text-accentText">${l}</span>`
-              : `<span class="rounded-md px-2.5 py-1 text-muted">${l}</span>`
+              : `<span class="rounded-md px-2.5 py-1 text-muted">${l}</span>`,
           )
           .join('') +
         `</div>`
@@ -348,11 +368,15 @@
       document.getElementById('filter').innerHTML = filterHTML(board.filter)
       document.getElementById('board').innerHTML =
         caption(
-          'Board — items: open · done · multiline · inline-edit · move  ·  sections: expanded · collapsed · empty   (filter: All)'
+          'Board — items: open · done · multiline · inline-edit · move  ·  sections: expanded · collapsed · empty   (filter: All)',
         ) +
-        board.sections.map(s => sectionHTML(s, allTitles, board.filter)).join('') +
+        board.sections
+          .map(s => sectionHTML(s, allTitles, board.filter))
+          .join('') +
         addSectionBtn +
-        caption('Footer states — “N filtered” (some hidden) and all-filtered (none visible)   (filter: Open)') +
+        caption(
+          'Footer states — “N filtered” (some hidden) and all-filtered (none visible)   (filter: Open)',
+        ) +
         sectionHTML(footerDemo, allTitles, 'open') +
         sectionHTML(allDoneDemo, allTitles, 'open') +
         caption('Done-filter control — the three states') +

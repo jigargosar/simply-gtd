@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>simply-gtd · view, taken apart</title>
+
+    <!-- CDN deps (explainer only) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/typescript.min.js"></script>
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              paper: '#eef0f4',
+              surface: '#ffffff',
+              ink: '#14172a',
+              muted: '#5b6072',
+              hair: '#dde1e9',
+              data: '#0b6bcb',
+              dataBright: '#1e90ff',
+              fact: '#b45309',
+              factBright: '#ea9a2e',
+              panel: '#171a31',
+            },
+            fontFamily: {
+              display: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
+              sans: ['Inter', 'system-ui', 'sans-serif'],
+              mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+            },
+          },
+        },
+      }
+    </script>
+
+    <style>
+      :where(button, a, [tabindex], summary):focus-visible {
+        outline: 2px solid #0b6bcb;
+        outline-offset: 3px;
+        border-radius: 4px;
+      }
+
+      /* flow rail */
+      .node {
+        transition: all 0.35s ease;
+        filter: grayscale(0.55) opacity(0.55);
+      }
+      .node.lit {
+        filter: none;
+        transform: translateY(-2px);
+      }
+      .node.lit .dot {
+        box-shadow: 0 0 0 4px rgba(11, 107, 203, 0.14);
+      }
+      .node[data-kind='fact'].lit .dot {
+        box-shadow: 0 0 0 4px rgba(180, 83, 9, 0.16);
+      }
+
+      /* code lines */
+      .codeline {
+        display: grid;
+        grid-template-columns: 2.25rem 1fr;
+        cursor: pointer;
+        border-left: 2px solid transparent;
+        transition: background 0.18s ease;
+      }
+      .codeline:hover {
+        background: #20243f;
+      }
+      .codeline.active {
+        background: #232847;
+        border-left-color: #1e90ff;
+      }
+      .codeline .ln {
+        color: #5b6072;
+        text-align: right;
+        padding-right: 0.7rem;
+        font-size: 11px;
+        line-height: 1.65rem;
+        user-select: none;
+      }
+      .codeline pre {
+        margin: 0;
+        line-height: 1.65rem;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+      .codeline code {
+        background: transparent !important;
+        padding: 0 !important;
+      }
+
+      .stepdot {
+        transition: all 0.25s ease;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition: none !important;
+        }
+        .node.lit {
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+
+  <body class="bg-paper text-ink font-sans antialiased">
+    <!-- HERO: the loop is the thesis -->
+    <header class="border-b border-hair bg-surface">
+      <div class="mx-auto max-w-6xl px-6 py-7">
+        <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
+          src/preview-v001/main.ts
+        </p>
+        <h1
+          class="mt-2 font-display text-3xl font-700 leading-tight tracking-tight sm:text-4xl"
+        >
+          The view, taken apart
+        </h1>
+        <p class="mt-2 max-w-xl text-[15px] leading-relaxed text-muted">
+          A view is a function.
+          <span class="font-medium text-data">Model</span> goes in, screen comes
+          out, and a click sends a
+          <span class="font-medium text-fact">fact</span> back. Walk the code
+          one line at a time; the rail shows where you are in the cycle.
+        </p>
+
+        <!-- FLOW RAIL (signature element) -->
+        <div
+          class="mt-6 flex flex-wrap items-center gap-x-3 gap-y-3 font-display text-sm font-600"
+        >
+          <div class="node lit" data-stage="view" data-kind="data">
+            <div class="flex items-center gap-2">
+              <span
+                class="dot grid h-9 w-9 place-items-center rounded-full bg-data text-surface"
+                >M</span
+              >
+              <span>Model</span>
+            </div>
+          </div>
+          <span class="text-muted">→ view →</span>
+          <div class="node" data-stage="view" data-kind="data">
+            <div class="flex items-center gap-2">
+              <span
+                class="dot grid h-9 w-9 place-items-center rounded-full bg-ink text-surface"
+                >▤</span
+              >
+              <span>Screen</span>
+            </div>
+          </div>
+          <span class="text-muted">→ click →</span>
+          <div class="node" data-stage="message" data-kind="fact">
+            <div class="flex items-center gap-2">
+              <span
+                class="dot grid h-9 w-9 place-items-center rounded-full bg-fact text-surface"
+                >!</span
+              >
+              <span>Message</span>
+            </div>
+          </div>
+          <span class="text-muted">→ update →</span>
+          <div class="node" data-stage="update" data-kind="data">
+            <div class="flex items-center gap-2">
+              <span
+                class="dot grid h-9 w-9 place-items-center rounded-full bg-ink text-surface"
+                >↺</span
+              >
+              <span>new Model</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main
+      class="mx-auto grid max-w-6xl gap-6 px-6 py-7 lg:grid-cols-[1.05fr_0.95fr]"
+    >
+      <!-- CODE PANEL -->
+      <section
+        class="overflow-hidden rounded-2xl bg-panel shadow-xl ring-1 ring-black/20"
+      >
+        <div
+          class="flex items-center justify-between border-b border-white/10 px-4 py-3"
+        >
+          <div class="flex items-center gap-1.5">
+            <span class="h-2.5 w-2.5 rounded-full bg-fact/80"></span>
+            <span class="h-2.5 w-2.5 rounded-full bg-data/70"></span>
+            <span class="h-2.5 w-2.5 rounded-full bg-white/25"></span>
+            <span class="ml-2 font-mono text-[11px] text-white/45">view()</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <button
+              id="prev"
+              class="rounded-lg px-2.5 py-1 font-mono text-[11px] text-white/55 hover:bg-white/10 hover:text-white"
+            >
+              ← prev
+            </button>
+            <span id="counter" class="font-mono text-[11px] text-white/45"
+              >1/8</span
+            >
+            <button
+              id="next"
+              class="rounded-lg bg-data px-2.5 py-1 font-mono text-[11px] font-700 text-white hover:bg-dataBright"
+            >
+              next →
+            </button>
+          </div>
+        </div>
+        <div id="code" class="py-2 font-mono text-[12.5px] text-white/90"></div>
+      </section>
+
+      <!-- NARRATION -->
+      <section class="flex flex-col gap-5">
+        <!-- step dots -->
+        <div id="dots" class="flex items-center gap-2"></div>
+
+        <article
+          id="panel"
+          class="rounded-2xl border border-hair bg-surface p-5 shadow-sm"
+        ></article>
+
+        <!-- legend -->
+        <div
+          class="flex flex-wrap items-center gap-x-5 gap-y-2 rounded-xl border border-hair bg-surface px-4 py-3 text-xs text-muted"
+        >
+          <span class="flex items-center gap-1.5"
+            ><span class="h-3 w-3 rounded-full bg-data"></span> data /
+            Model</span
+          >
+          <span class="flex items-center gap-1.5"
+            ><span class="h-3 w-3 rounded-full bg-fact"></span> fact /
+            Message</span
+          >
+          <span class="ml-auto font-mono text-[11px]">← → to step</span>
+        </div>
+
+        <!-- quiz -->
+        <div class="rounded-2xl border border-hair bg-surface p-5 shadow-sm">
+          <h2 class="font-display text-base font-600">Check yourself</h2>
+          <p class="mb-3 mt-0.5 text-xs text-muted">Answer first, then open.</p>
+          <div id="quiz" class="flex flex-col gap-2"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="mx-auto max-w-6xl px-6 pb-10 pt-2 text-xs text-muted">
+      Sources cited per step from the vendored foldkit subtree (<span
+        class="font-mono"
+        >repos/foldkit/…</span
+      >). Scope: the current view only.
+    </footer>
+
+    <script>
+      const lines = [
+        `export const view = (model: Model): Document => {`,
+        `  const h = html<Message>()`,
+        ``,
+        `  return {`,
+        `    title: 'simply-gtd | preview v001',`,
+        `    body: h.div(`,
+        `      [h.Class('min-h-screen bg-white flex items-center justify-center p-6')],`,
+        `      [`,
+        `        Button.view<Message>({`,
+        `          onClick: ClickedGreeting(),`,
+        `          toView: attributes =>`,
+        `            h.button(`,
+        `              [`,
+        `                ...attributes.button,`,
+        `                h.Class('text-2xl font-semibold text-gray-900 hover:text-blue-600 transition'),`,
+        `              ],`,
+        `              [model.greeting],`,
+        `            ),`,
+        `        }),`,
+        `      ],`,
+        `    ),`,
+        `  }`,
+        `}`,
+      ]
+
+      const steps = [
+        {
+          lines: [1],
+          stage: 'view',
+          kind: 'data',
+          title: 'Model in, Document out',
+          html: `<p>A view is a pure function from <b class="text-data">Model</b> to HTML. It takes the current model (<code>{ greeting: string }</code>) and returns a <code>Document</code>:</p>
+          <pre class="mt-2 overflow-x-auto rounded-lg bg-paper p-2.5 text-[11.5px]">type Document = Readonly&lt;{ title: string; canonical?: string; ogUrl?: string; body: Html }&gt;</pre>
+          <p class="mt-2"><code>export</code> matters: <code>entry.ts</code> hands <code>view</code> to the runtime, so <code>main.ts</code> stays importable from tests.</p>`,
+          cite: 'foldkit/src/html/index.ts:136',
+        },
+        {
+          lines: [2],
+          stage: 'view',
+          kind: 'data',
+          title: 'Bind the typed html factory',
+          html: `<p><code>html</code> returns a record of builders: elements (<code>h.div</code>, <code>h.button</code>), attributes (<code>h.Class</code>, <code>h.OnClick</code>), helpers (<code>h.empty</code>).</p>
+          <p class="mt-2">The <code>&lt;Message&gt;</code> type parameter ties every event attribute to <b class="text-fact">your Message union</b>. Pass a non-Message to <code>h.OnClick</code> and it fails to compile.</p>
+          <p class="mt-2">Convention: bind <code>h</code> <b>inside</b> each view, never at module scope.</p>`,
+          cite: 'docs: core/view, "Typed HTML Helpers"',
+        },
+        {
+          lines: [4, 5],
+          stage: 'view',
+          kind: 'data',
+          title: 'Return a Document',
+          html: `<p>Two parts matter here: <code>title</code> (the runtime writes it to the page title) and <code>body</code> (the element tree, everything visible).</p>`,
+          cite: 'foldkit/src/html/index.ts:136',
+        },
+        {
+          lines: [6, 7],
+          stage: 'view',
+          kind: 'data',
+          title: 'h.div([attributes], [children])',
+          html: `<p>Every element builder takes <b>two arrays</b>:</p>
+          <ol class="mt-1 list-decimal pl-5 marker:text-muted"><li>Attributes first (classes, handlers, aria).</li><li>Children second (text or nested elements).</li></ol>
+          <p class="mt-2"><code>h.Class('…')</code> builds a <code>class</code> attribute. Stock Tailwind here, not the mock tokens, which aren't in the real build yet.</p>`,
+          cite: 'docs: core/view',
+        },
+        {
+          lines: [9],
+          stage: 'view',
+          kind: 'data',
+          title: 'Button.view, a stateless helper',
+          html: `<p>The only piece from <code>@foldkit/ui</code>. It owns no Model or update. It computes the right button attributes and asks <b>you</b> to render the element.</p>
+          <pre class="mt-2 overflow-x-auto rounded-lg bg-paper p-2.5 text-[11.5px]">view: &lt;ParentMessage&gt;(config: ViewConfig) =&gt; Html</pre>
+          <p class="mt-2"><code>ViewConfig</code>: <code>toView</code> (required), then optional <code>onClick</code>, <code>isDisabled</code>, <code>type</code>, <code>isAutofocus</code>.</p>`,
+          cite: 'ui/src/button/index.ts:23',
+        },
+        {
+          lines: [10],
+          stage: 'message',
+          kind: 'fact',
+          title: 'onClick is a fact, not a callback',
+          html: `<p><code>onClick: <b class="text-fact">ClickedGreeting()</b></code> is the <b class="text-fact">Message</b> to emit on click. The <code>()</code> constructs the value.</p>
+          <p class="mt-2">Button turns it into <code>h.OnClick(onClick)</code> (and omits it when disabled). You pass a fact about <i>what happened</i>; <code>update</code> decides what follows.</p>`,
+          cite: 'ui/src/button/index.ts:40-41',
+        },
+        {
+          lines: [11, 12, 13, 14, 15, 16, 17, 18],
+          stage: 'view',
+          kind: 'data',
+          title: 'toView: Button hands you its attributes',
+          html: `<p>This contract is why Button has no opinion on looks.</p>
+          <ul class="mt-1 list-disc pl-5 marker:text-muted">
+            <li>Button builds the wiring and passes it as <code>attributes.button</code>.</li>
+            <li>For us that is <code>h.Type('button')</code>, <code>h.Tabindex(0)</code>, <code>h.OnClick(ClickedGreeting())</code>.</li>
+            <li>You <code>...attributes.button</code> spread it, then add <code>h.Class(…)</code>.</li>
+            <li>The child <code><b class="text-data">[model.greeting]</b></code> is the only place the Model touches the view.</li>
+          </ul>
+          <p class="mt-2"><b>Split:</b> Button owns wiring and a11y, you own markup and styling.</p>`,
+          cite: 'ui/src/button/index.ts:9, 45-51',
+        },
+        {
+          lines: [19, 20, 21, 22, 23],
+          stage: 'update',
+          kind: 'data',
+          title: 'Close up, and the loop closes',
+          html: `<p>Closing the config, children, div, and Document.</p>
+          <p class="mt-2"><b>The cycle:</b> click → <b class="text-fact">ClickedGreeting</b> → <code>update</code> → a <b class="text-data">new Model</b> with the greeting flipped → runtime calls <code>view</code> again → <code>[model.greeting]</code> renders the new text.</p>
+          <p class="mt-2"><code>view</code> never mutates state and never runs effects. It reads Model into markup and wires events to Messages. That is the whole job.</p>`,
+          cite: 'docs: core/view, "view is guaranteed pure"',
+        },
+      ]
+
+      const quiz = [
+        {
+          q: 'Does view mutate the Model?',
+          a: 'No. It is pure: it returns markup and emits Messages. update produces new state.',
+        },
+        {
+          q: 'Is onClick a callback or a Message?',
+          a: 'A Message value, ClickedGreeting(). The () constructs it; Button turns it into h.OnClick.',
+        },
+        {
+          q: 'Who fills attributes.button?',
+          a: 'Button.view (type, tabindex, OnClick). You spread it into your own h.button and add styling.',
+        },
+        {
+          q: 'What does view return?',
+          a: 'A Document: Readonly<{ title; body; canonical?; ogUrl? }>. entry.ts mounts body into #root.',
+        },
+      ]
+
+      // render code
+      const codeEl = document.getElementById('code')
+      const lineToStep = {}
+      steps.forEach((s, i) => s.lines.forEach(l => (lineToStep[l] = i)))
+      lines.forEach((text, idx) => {
+        const n = idx + 1
+        const row = document.createElement('div')
+        row.className = 'codeline'
+        row.dataset.line = n
+        const code = text.length
+          ? hljs.highlight(text, { language: 'typescript' }).value
+          : '&nbsp;'
+        row.innerHTML = `<span class="ln">${n}</span><pre><code class="hljs">${code}</code></pre>`
+        row.addEventListener('click', () => {
+          if (lineToStep[n] !== undefined) go(lineToStep[n])
+        })
+        codeEl.appendChild(row)
+      })
+
+      // render dots
+      const dotsEl = document.getElementById('dots')
+      steps.forEach((s, i) => {
+        const b = document.createElement('button')
+        b.className = 'stepdot h-2.5 rounded-full bg-hair'
+        b.style.width = '1.75rem'
+        b.setAttribute('aria-label', `Step ${i + 1}: ${s.title}`)
+        b.addEventListener('click', () => go(i))
+        dotsEl.appendChild(b)
+      })
+
+      // render quiz
+      const quizEl = document.getElementById('quiz')
+      quiz.forEach(item => {
+        const d = document.createElement('details')
+        d.className =
+          'group rounded-xl border border-hair bg-paper px-3.5 py-2.5'
+        d.innerHTML = `<summary class="cursor-pointer list-none text-sm font-500 marker:hidden">${item.q}<span class="float-right text-muted transition group-open:rotate-45">+</span></summary><p class="mt-2 text-[13px] leading-relaxed text-muted">${item.a}</p>`
+        quizEl.appendChild(d)
+      })
+
+      // nav
+      let current = 0
+      const panel = document.getElementById('panel')
+      const counter = document.getElementById('counter')
+      const dotBtns = () => Array.from(dotsEl.children)
+
+      function go(i) {
+        current = Math.max(0, Math.min(steps.length - 1, i))
+        const s = steps[current]
+
+        document
+          .querySelectorAll('.codeline')
+          .forEach(el =>
+            el.classList.toggle(
+              'active',
+              s.lines.includes(Number(el.dataset.line)),
+            ),
+          )
+        const first = document.querySelector(
+          `.codeline[data-line="${s.lines[0]}"]`,
+        )
+        if (first)
+          first.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+
+        document
+          .querySelectorAll('.node')
+          .forEach(node =>
+            node.classList.toggle('lit', node.dataset.stage === s.stage),
+          )
+
+        dotBtns().forEach((b, i2) => {
+          const on = i2 === current
+          b.classList.toggle('bg-hair', !on)
+          b.style.background = on
+            ? s.kind === 'fact'
+              ? '#b45309'
+              : '#0b6bcb'
+            : ''
+          b.style.width = on ? '2.5rem' : '1.75rem'
+        })
+
+        const accent = s.kind === 'fact' ? 'fact' : 'data'
+        panel.innerHTML = `
+          <div class="flex items-center gap-2.5">
+            <span class="grid h-7 w-7 place-items-center rounded-lg bg-${accent} font-mono text-xs font-700 text-white">${current + 1}</span>
+            <h2 class="font-display text-lg font-600 leading-tight">${s.title}</h2>
+          </div>
+          <div class="mt-3 space-y-2 text-[13.5px] leading-relaxed [&_code]:rounded [&_code]:bg-paper [&_code]:px-1 [&_code]:py-0.5 [&_code]:font-mono [&_code]:text-[12px]">${s.html}</div>
+          <p class="mt-4 border-t border-hair pt-2.5 font-mono text-[11px] text-muted">${s.cite}</p>`
+        counter.textContent = `${current + 1}/${steps.length}`
+      }
+
+      document
+        .getElementById('prev')
+        .addEventListener('click', () => go(current - 1))
+      document
+        .getElementById('next')
+        .addEventListener('click', () => go(current + 1))
+      document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowLeft') go(current - 1)
+        if (e.key === 'ArrowRight') go(current + 1)
+      })
+
+      go(0)
+    </script>
+  </body>
+</html>

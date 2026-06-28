@@ -21,6 +21,7 @@
 16. Anti-bias caveat: this is partly inherent LLM behavior, not purely a bug — issue #18454 was closed "not planned," so authoring/workflow design is the lever, not waiting for a fix. [4]
 
 ## Sources
+
 - [1] [Anthropic — Skill authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices)
 - [2] [Marc Bara — Claude Skills Have Two Reliability Problems](https://medium.com/@marc.bara.iniesta/claude-skills-have-two-reliability-problems-not-one-299401842ca8)
 - [3] [Your CLAUDE.md Is Doing Too Much](https://rahuulmiishra.medium.com/your-claude-md-is-doing-too-much-heres-how-to-fix-it-2cc495ed3599)
@@ -29,6 +30,7 @@
 - [6] [Unite.AI — Why LLMs Skip Instructions (SIFo benchmark)](https://www.unite.ai/why-large-language-models-skip-instructions-and-how-to-address-the-issue/)
 
 tldr
+
 - Steps get skipped from: invisible/no-output steps, task-completion bias, attention dilution, instruction overload, over-length skills, deep nesting.
 - Anthropic confirms it and gives the fixes: visible-output steps, copy-able checklists, validate-loops, <500-line lean skills, MUST phrasing, rules in the user turn.
 - It's partly inherent LLM behavior (bug closed "not planned"), so skill authoring is the real lever.

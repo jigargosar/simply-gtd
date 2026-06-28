@@ -12,7 +12,7 @@
 - **I5 — Commit / cancel**: the edit popover has explicit **OK / Cancel** buttons (the "internal dialog"). Edits commit only via OK; Cancel discards. **Blur** (clicking away) with unsaved changes shows a confirm with three choices — **Save / Discard / Keep editing** — rather than silently saving or discarding.
 - **I6 — First run**: seed one sample Section **"Welcome to simply-gtd"** with three items when there is no saved data:
   1. "Click a row to edit, complete, or archive it"
-  2. "Tick the checkbox to mark an item done" — *seeded done* (demonstrates strikethrough + filter)
+  2. "Tick the checkbox to mark an item done" — _seeded done_ (demonstrates strikethrough + filter)
   3. "Use + add to capture new items; they appear at the top"
 - **I7 — Empty Section** (zero items, not filter-hidden): show **title + add button**, nothing else.
 - **I8 — Empty board** (no Sections): show an **instruction to add** a Section.
