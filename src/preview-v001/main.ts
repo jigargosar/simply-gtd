@@ -3,6 +3,8 @@ import { Command, Runtime } from 'foldkit'
 import { Document, html } from 'foldkit/html'
 import { m } from 'foldkit/message'
 
+import { Button } from '@foldkit/ui'
+
 // MODEL
 
 export const Model = S.Struct({ greeting: S.String })
@@ -60,15 +62,19 @@ export const view = (model: Model): Document => {
         ),
       ],
       [
-        h.button(
-          [
-            h.OnClick(ClickedGreeting()),
-            h.Class(
-              'text-2xl font-semibold text-gray-900 hover:text-blue-600 transition',
+        Button.view<Message>({
+          onClick: ClickedGreeting(),
+          toView: attributes =>
+            h.button(
+              [
+                ...attributes.button,
+                h.Class(
+                  'text-2xl font-semibold text-gray-900 hover:text-blue-600 transition',
+                ),
+              ],
+              [model.greeting],
             ),
-          ],
-          [model.greeting],
-        ),
+        }),
       ],
     ),
   }
