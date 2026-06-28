@@ -2,7 +2,7 @@
 
 > Scope: the finished look — style direction, theme, layout, color, type, density, affordances.
 > Hub: [`roadmap.md`](./roadmap.md). Sibling specs: [`interaction.md`](./interaction.md), [`persistence.md`](./persistence.md), [`search.md`](./search.md), [`item-state.md`](./item-state.md).
-> Mock: `docs/board-mock.html` — current working mock (see "Mock — resume notes" below). Serve via `pnpx serve docs -l 4178`. Older `docs/mockups/board-vNNN.html` files are off-limits — do not open.
+> Mock: `docs/mockups-002/board-mock.html` — current working mock and first preview direction (see "Mock — resume notes" below). Serve via `pnpx serve docs -l 4178`. Off-limits `docs/mockups/board-vNNN.html` files are distinct — do not open.
 
 ## Skills — load before UI / mockup / Foldkit work
 
@@ -38,8 +38,8 @@ These hold the rules; do not duplicate their content here — record only projec
 
 ## Mock — resume notes
 
-Mock: `docs/board-mock.html` — data-driven from a `board` object.
-Serve: `pnpx serve docs -l 4178`. (In `docs/`, not off-limits `docs/mockups/`.)
+Mock: `docs/mockups-002/board-mock.html` — data-driven from a `board` object.
+Serve: `pnpx serve docs -l 4178` (URL `/mockups-002/board-mock.html`). `docs/mockups-002/` is allowed; `docs/mockups/` is off-limits.
 
 ### Verified
 Header (title·search·controls); soft cards; single column; rows (checkbox·text·grip,

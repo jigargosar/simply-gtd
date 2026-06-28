@@ -6,7 +6,7 @@
 
 - `main` is clean. App code is the Foldkit starter template (`src/main.ts` + `src/entry.ts`). No view implemented yet.
 - Specs are locked: `roadmap.md`, `item-state.md`, `interaction.md`, `persistence.md`, `search.md`, `visual.md`.
-- Current working mock: `docs/board-mock.html` (data-driven, full states gallery). Status + pending items in `visual.md` → "Mock — resume notes". Older `docs/mockups/` files are off-limits.
+- Current working mock: `docs/mockups-002/board-mock.html` (data-driven, full states gallery) — our first preview direction; we are finalizing the view structure from it. Status + pending items in `visual.md` → "Mock — resume notes". Off-limits `docs/mockups/` (vNNN) files are distinct and not to be opened.
 
 ## Next (phase order)
 
