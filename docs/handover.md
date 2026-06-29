@@ -35,6 +35,10 @@
 4. When `update` passes ~15–20 cases / the view grows: split into `model.ts` / `message.ts` / `command.ts` / `update.ts` / `view/` and add `story.test.ts` + `scene.test.ts`.
 5. Swap mock seed → I6 "Welcome to simply-gtd" first-run seed once persistence lands.
 
+## Aspiration — learning
+
+Recreate `docs/learn/` explainers that teach the board code in `src/preview-v001/`: the Model → view → Message → update loop on the real code (Schema model, `evo`, decomposed slice-taking view fns, `Button.view`, inline `h.svg`), as an interactive page (step-through, click-to-reveal, loop rail) driven via the foldkit MCP. Every API claim cited from the foldkit subtree.
+
 ## Open spec questions
 
 - Multi-board: single board permanently, or multi-board later?

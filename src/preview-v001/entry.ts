@@ -10,10 +10,7 @@ const application = Runtime.makeApplication({
   update,
   view,
   container: document.getElementById('root'),
-  devTools: {
-    overlay,
-    Message,
-  },
+  devTools: { overlay, Message },
 })
 
 Runtime.run(application)
