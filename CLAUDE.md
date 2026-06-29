@@ -28,7 +28,8 @@ Board → Sections (titled) → Items (text + done + timestamps). Each entity ca
 - Stay inside Foldkit/Effect; no React, no escape hatches, no two-way binding.
 - Model fields are Schema types. Immutable updates via `evo()` — never spread.
 - Messages are facts, never commands; never `NoOp`.
-- NEVER open, read, list, or search `./docs/mockups`.
+- Board mockup lives at `docs/mockups/board-mock.html`.
+- Never read, list, or search `docs/_archive/`.
 - NEVER use worktrees. Do not call EnterWorktree; work in the shared checkout. Banned until the user explicitly lifts this.
 
 ## Code shape — human guardrails (whole project, no exceptions)
