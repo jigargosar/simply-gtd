@@ -31,6 +31,7 @@ Board → Sections (titled) → Items (text + done + timestamps). Each entity ca
 - Board mockup lives at `docs/mockups/board-mock.html`.
 - Never read, list, or search `docs/_archive/` — not in the working tree, and not via git history (no `git log`, `git show`, `git diff`, `git cat-file`, or any command that surfaces its past or deleted contents). If its content ever surfaces incidentally (search hits, diff output), ignore it and base no decision on it. Treat the path as off-limits everywhere — do not add it to ignore files; the ban is behavioral.
 - NEVER use worktrees. Do not call EnterWorktree; work in the shared checkout. Banned until the user explicitly lifts this.
+- Foldkit devtools MCP debugging: see `AGENTS.md` "Debugging" + `repos/foldkit/packages/devtools-mcp/README.md`. Gotcha: one tab, no pinned `runtime_id`, screenshot = ground truth.
 
 ## Code shape — human guardrails (whole project, no exceptions)
 

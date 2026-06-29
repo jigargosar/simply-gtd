@@ -34,7 +34,7 @@ These hold the rules; do not duplicate their content here — record only projec
 ## Open / to confirm
 
 - Exact shadow values (elevation steps) and the tonal surface scale.
-- Foldkit components to standardize on — to be listed after scanning `repos/foldkit/`. Canonical usage example already in `src/main.ts`: `import { Button } from '@foldkit/ui'`, used via `Button.view({ onClick, toView })`. Live view-first preview now at `src/preview-v001/` (uses `Button.view`); see `docs/handover.md` and the `docs/learn/view-anatomy*` explainers.
+- Foldkit components to standardize on — to be listed after scanning `repos/foldkit/`. Live view-first preview at `src/preview-v001/` uses `@foldkit/ui` `Button.view` (filter + collapse controls) plus core SVG primitives (`h.svg`/`h.path`) for icons; see `docs/handover.md`.
 
 ## Mock — resume notes
 
