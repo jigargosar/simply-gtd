@@ -11,7 +11,7 @@
   - `src/preview-v001/preview.html` — own page. Dev URL: `http://localhost:5173/src/preview-v001/preview.html`.
   - `vite.config.ts` — multi-page `build.rollupOptions.input` (`main` + `preview`); preview entry added to `optimizeDeps.entries`.
 - Specs locked: `roadmap.md`, `item-state.md`, `interaction.md`, `persistence.md`, `search.md`, `visual.md`.
-- Working mock + first preview direction: `docs/mockups-002/board-mock.html` (data-driven, full states gallery). We are finalizing view structure from it. Off-limits `docs/mockups/` (vNNN) files are distinct.
+- Working mock + first preview direction: `docs/mockups/board-mock.html` (data-driven, full states gallery). We are finalizing view structure from it.
 - Teaching artifacts in `docs/learn/`: `view-anatomy.md`, `view-anatomy.html` (interactive: step-through + click-to-reveal + quiz), `view-anatomy-v002.html` (distinctive redesign with the Model→view→Message→update loop rail). All cover the current preview `view` only, cited from the foldkit subtree.
 
 ## Conventions / decisions this session
