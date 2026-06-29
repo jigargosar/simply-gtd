@@ -1,18 +1,18 @@
 # Handover
 
-> As of 2026-06-28.
+> As of 2026-06-29.
 
 ## Current state
 
 - `main` is clean and pushed. The app entry (`src/main.ts` + `src/entry.ts`) is still the Foldkit starter (counter); not the product.
-- **Foldkit view-first preview started** (phase 2). Isolated, throwaway, separate from the app entry:
-  - `src/preview-v001/main.ts` — Model `{ greeting }`, one `ClickedGreeting` fact, `update` flips the text, `view` renders a clickable greeting via `@foldkit/ui` `Button.view`. The button is extracted to `helloButtonView(greeting: string)`.
-  - `src/preview-v001/entry.ts` — `Runtime.makeApplication` + `run` into `#root` (mirrors the template, incl. devtools overlay).
-  - `src/preview-v001/preview.html` — own page. Dev URL: `http://localhost:5173/src/preview-v001/preview.html`.
-  - `vite.config.ts` — multi-page `build.rollupOptions.input` (`main` + `preview`); preview entry added to `optimizeDeps.entries`.
-- Specs locked: `roadmap.md`, `item-state.md`, `interaction.md`, `persistence.md`, `search.md`, `visual.md`.
-- Working mock + first preview direction: `docs/mockups/board-mock.html` (data-driven, full states gallery). We are finalizing view structure from it.
-- Teaching artifacts in `docs/learn/`: `view-anatomy.md`, `view-anatomy.html` (interactive: step-through + click-to-reveal + quiz), `view-anatomy-v002.html` (distinctive redesign with the Model→view→Message→update loop rail). All cover the current preview `view` only, cited from the foldkit subtree.
+- **`preview-v001` is now an interactive board** (grew it; greeting starter replaced). Isolated from the app entry.
+  - `src/preview-v001/main.ts` — Model `{ sections, filter }` with `Section { id, title, collapsed, items }` and `Item { id, text, done }`; `filter: S.Literals(['Open','Done','All'])`. Facts: `SelectedFilter`, `ToggledSectionCollapse`. `update` via `M.tagsExhaustive` + `evo`; no Commands yet. View decomposed into slice-taking helpers (`itemView` / `sectionView` / `filterView` / `headerView` ...). Icons are inline `h.svg`/`h.path` (Lucide path data) via core primitives; interactive controls use `@foldkit/ui` `Button.view`. Working: live done-filter (Open/Done/All) + per-section collapse.
+  - `entry.ts` / `preview.html` unchanged. Dev URL: `http://localhost:5173/src/preview-v001/preview.html`.
+  - `vite.config.ts` — multi-page input (`main` + `preview`) unchanged.
+  - Verified in-browser (no console errors); `typecheck` / `lint` / `format` clean.
+- **Model kept minimal, derived from the view.** No `archived` / `order` / timestamps until something renders them. Seed = the mock's sample sections (Inbox / This Week / ...), NOT yet the I6 "Welcome" seed.
+- Specs locked: `roadmap.md`, `item-state.md`, `interaction.md`, `persistence.md`, `search.md`, `visual.md`. Implemented per spec where in scope: I1 done-filter (view-only, 3-state), I3 "N filtered" footer, I7 empty section, I10 collapse-with-count.
+- **Mock is a visual reference for the view only** (`docs/mockups/board-mock.html`) — not a data/implementation blueprint.
 
 ## Conventions / decisions this session
 
@@ -21,12 +21,19 @@
 - **Typecheck:** `tsconfig.json` now `exclude: ["repos", "dist", "node_modules"]`.
 - **IDE:** vendored `repos/` is excluded in WebStorm (`.idea`, user-managed) to silence TS2307 on example deps (`clsx`, `maplibre-gl`). Not a lint issue.
 - **Code shape guardrails (now in `CLAUDE.md`):** whole-project rules — ~3 nesting levels max then extract; no "small/throwaway" exemptions (broken windows); pass narrow slices not whole objects; keep sibling calls at one level of abstraction. Framed as human-readability limits, not style.
+- **Mock = reference for the view, not implementation.** Don't copy its data / JS / icons; derive the model from the view being built.
+- **No premature abstraction.** Plain `collapsed` boolean + fact, not per-section `Disclosure` submodels. Reach for `@foldkit/ui` submodels only when plain state strains.
+- **Library-only visuals.** Foldkit ships no icon set; render icons with core SVG primitives (`h.svg`/`h.path`) and use `@foldkit/ui` for interactive controls. No custom icon abstraction layer.
+- **`docs/_archive/` ban extended** (`CLAUDE.md`): off-limits in the working tree AND git history; ignore any incidental surfacing. Behavioral, not via ignore files.
+- **Update `handover.md` after every significant chunk of work**, not just at end of session.
 
 ## Next (phase order)
 
-1. Grow `preview-v001` from the mock: build the static board with stateless helpers + Tailwind classes mirroring `board-mock.html` (header, done-filter, section cards, item variants). Decompose into `sectionView` / `itemView` / `filterView` etc. from the start. No behavior yet.
-2. Introduce stateful Submodels as behavior lands: section collapse → Disclosure, edit → Dialog, move → Popover, search → Combobox, drag → DragAndDrop.
-3. Finalize Schema/model + build the real app view (field shape tentative — see `persistence.md`): `id`, fractional `order`, `archived`, `done`, created/modified.
+1. **Inline edit (next):** add `Editing | NotEditing` (`ts()`) to Model + `StartedEditingItem` / `ChangedItemDraft` / `SubmittedItemEdit` / `CancelledItemEdit`; edit panel in `itemView` (todo example is the template). Plain state, no Dialog submodel yet.
+2. Add item / section (needs ids → first Command, Crypto UUID per kanban; insert-at-top, I2) and done-toggle (`ToggledItemDone`, nested `evo`).
+3. Then: move picker, drag (kanban `DragAndDrop`), archive view + restore, search, persistence (localStorage blob). Introduce `@foldkit/ui` submodels as each behavior earns it.
+4. When `update` passes ~15–20 cases / the view grows: split into `model.ts` / `message.ts` / `command.ts` / `update.ts` / `view/` and add `story.test.ts` + `scene.test.ts`.
+5. Swap mock seed → I6 "Welcome to simply-gtd" first-run seed once persistence lands.
 
 ## Open spec questions
 
